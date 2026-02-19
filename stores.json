@@ -1,0 +1,16 @@
+[
+  {
+    "name": "Appolo Pharmacy",
+    "phone": "9876543210",
+    "distance": 2,
+    "status": "In Stock",
+    "medicines": ["paracetamol", "dolo", "crocin"]
+  },
+  {
+    "name": "Care Medical Store",
+    "phone": "9123456780",
+    "distance": 4,
+    "status": "Low Stock",
+    "medicines": ["azithromycin", "dolo"]
+  }
+]
