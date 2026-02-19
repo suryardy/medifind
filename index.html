@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediFind</title>
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@2/dist/tesseract.min.js"></script>
+</head>
+
+<body>
+
+<header>
+    <h1>🏥 MediFind</h1>
+    <input type="text" id="searchBar" placeholder="Enter Medicine Name">
+    <button onclick="searchMedicine()">Search</button>
+</header>
+
+<section style="text-align:center; margin:20px;">
+    <input type="file" id="imageInput">
+    <button onclick="scanMedicine()">Scan Medicine</button>
+</section>
+
+<div id="map" style="height:300px;"></div>
+<div id="storesList"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
