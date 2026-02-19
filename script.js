@@ -1,23 +1,23 @@
-let userLat, userLng;
 let map;
+let userLat, userLng;
 
 navigator.geolocation.getCurrentPosition(position => {
     userLat = position.coords.latitude;
     userLng = position.coords.longitude;
+
     initMap();
 });
 
 function initMap() {
-    map = new google.maps.Map(document.getElementById("map"), {
-        center: { lat: userLat, lng: userLng },
-        zoom: 14
-    });
+    map = L.map('map').setView([userLat, userLng], 14);
 
-    new google.maps.Marker({
-        position: { lat: userLat, lng: userLng },
-        map: map,
-        title: "You are here"
-    });
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    L.marker([userLat, userLng]).addTo(map)
+        .bindPopup("You are here")
+        .openPopup();
 }
 
 function scanMedicine() {
@@ -25,13 +25,15 @@ function scanMedicine() {
 
     Tesseract.recognize(file, 'eng')
         .then(result => {
-            document.getElementById("searchBar").value = result.data.text.trim().toLowerCase();
+            document.getElementById("searchBar").value =
+                result.data.text.trim().toLowerCase();
             searchMedicine();
         });
 }
 
 function searchMedicine() {
-    const medicineName = document.getElementById("searchBar").value.toLowerCase();
+    const medicineName =
+        document.getElementById("searchBar").value.toLowerCase();
 
     fetch("stores.json")
         .then(response => response.json())
@@ -59,3 +61,4 @@ function displayStores(stores) {
         `;
     });
 }
+
