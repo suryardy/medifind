@@ -1,16 +1,25 @@
 [
   {
-    "name": "Appolo Pharmacy",
-    "phone": "9876543210",
-    "distance": 2,
+    "name": "Medplus medical store",
+    "phone": "9839228788",
+    "distance": 7.1,
     "status": "In Stock",
-    "medicines": ["paracetamol", "dolo", "crocin"]
+    "Rating": "5 star",
+    "medicines": ["paracetamol", "dolo", "crocin","cetrizene"]
   },
   {
-    "name": "Care Medical Store",
-    "phone": "9123456780",
-    "distance": 4,
-    "status": "Low Stock",
+    "name": "sri venkateswara medical store ",
+    "phone": "9573982218",
+    "distance": 5.5,
+    "status": "in  Stock",
     "medicines": ["azithromycin", "dolo"]
+  },
+  {
+    "Name" : "sri aditya medical store",
+    "phone" : "9908825147",
+    "Distance" : 12.4,
+    "status" : "in stock",
+    "medicines" : "all types are available "
   }
+  
 ]
