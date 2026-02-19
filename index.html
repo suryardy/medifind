@@ -6,10 +6,7 @@
     <title>MediFind</title>
 
     <link rel="stylesheet" href="style.css">
-
-    <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
-
 </head>
 
 <body>
@@ -25,16 +22,19 @@
     </div>
 </header>
 
+<div class="search-container">
+    <input type="text" id="searchBar" placeholder="Enter Medicine Name">
+    <button onclick="searchMedicine()">Search</button>
+</div>
 
-<section style="text-align:center; margin:20px;">
+<div class="upload-section">
     <input type="file" id="imageInput">
     <button onclick="scanMedicine()">Scan Medicine</button>
-</section>
+</div>
 
-<div id="map" style="height:300px;"></div>
+<div id="map"></div>
 <div id="storesList"></div>
 
-<!-- Leaflet JS -->
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@2/dist/tesseract.min.js"></script>
 <script src="script.js"></script>
