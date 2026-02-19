@@ -1,31 +1,31 @@
-body {
+
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    background: linear-gradient(to right, #0077b6, #00b4d8);
+    color: white;
+    flex-wrap: wrap;
+}
+
+.header-left h1 {
     margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #f0f8ff;
+    font-size: 28px;
 }
 
-header {
-    background-color: #0077b6;
-    color: white;
-    text-align: center;
-    padding: 15px;
+.project-subtitle {
+    margin: 5px 0 0 0;
+    font-size: 14px;
+    font-weight: 300;
+    opacity: 0.9;
 }
 
-input, button {
-    padding: 10px;
-    margin: 5px;
+.header-right {
+    font-size: 16px;
+    font-weight: 500;
 }
 
-button {
-    background-color: #0096c7;
-    border: none;
-    color: white;
-    cursor: pointer;
-}
-
-.store-card {
-    background: white;
-    margin: 10px;
-    padding: 10px;
-    border-left: 5px solid #0077b6;
+.university-name {
+    margin: 0;
 }
