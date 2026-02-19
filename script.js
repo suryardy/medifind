@@ -1,103 +1,97 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
-body {
-    margin: 0;
-    font-family: 'Poppins', sans-serif;
-    background: linear-gradient(to right, #e0f7fa, #f1faff);
+let map;
+let userLat, userLng;
+let markers = [];
+
+navigator.geolocation.getCurrentPosition(position => {
+    userLat = position.coords.latitude;
+    userLng = position.coords.longitude;
+    initMap();
+});
+
+function initMap() {
+    map = L.map('map').setView([userLat, userLng], 14);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    L.marker([userLat, userLng]).addTo(map)
+        .bindPopup("📍 You are here")
+        .openPopup();
 }
 
-/* Header */
-.main-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 40px;
-    background: linear-gradient(to right, #0077b6, #00b4d8);
-    color: white;
-    flex-wrap: wrap;
+function scanMedicine() {
+    const file = document.getElementById("imageInput").files[0];
+
+    Tesseract.recognize(file, 'eng')
+        .then(result => {
+            document.getElementById("searchBar").value =
+                result.data.text.trim().toLowerCase();
+            searchMedicine();
+        });
 }
 
-.header-left h1 {
-    margin: 0;
-    font-size: 28px;
+function searchMedicine() {
+    const medicineName =
+        document.getElementById("searchBar").value
+        .trim()
+        .toLowerCase();
+
+    fetch("stores.json")
+        .then(response => response.json())
+        .then(data => {
+
+            const results = data.filter(store =>
+                store.medicines.some(med =>
+                    med.toLowerCase().includes(medicineName)
+                )
+            );
+
+            displayStores(results);
+            showStoreMarkers(results);
+        });
 }
 
-.project-subtitle {
-    margin: 5px 0 0 0;
-    font-size: 14px;
-    font-weight: 300;
-    opacity: 0.9;
+function displayStores(stores) {
+    const list = document.getElementById("storesList");
+    list.innerHTML = "";
+
+    if (stores.length === 0) {
+        list.innerHTML = `
+            <div class="store-card">
+                <h3>No Stores Found</h3>
+                <p>This medicine is not available nearby.</p>
+            </div>
+        `;
+        return;
+    }
+
+    stores.forEach(store => {
+        list.innerHTML += `
+            <div class="store-card">
+                <h3>${store.name}</h3>
+                <p>📞 ${store.phone}</p>
+                <p>📦 ${store.status}</p>
+            </div>
+        `;
+    });
 }
 
-.header-right {
-    font-size: 16px;
-    font-weight: 500;
-}
+function showStoreMarkers(stores) {
 
-/* Search Section */
-.search-container {
-    text-align: center;
-    margin: 20px;
-}
+    // Remove old markers
+    markers.forEach(marker => map.removeLayer(marker));
+    markers = [];
 
-.upload-section {
-    text-align: center;
-    margin-bottom: 20px;
-}
+    stores.forEach(store => {
+        const marker = L.marker([store.lat, store.lng]).addTo(map)
+            .bindPopup(`
+                <b>${store.name}</b><br>
+                📞 ${store.phone}<br>
+                📦 ${store.status}
+            `);
 
-input {
-    padding: 12px;
-    width: 250px;
-    border-radius: 25px;
-    border: 1px solid #ccc;
-    outline: none;
-    font-size: 14px;
-}
-
-button {
-    padding: 12px 18px;
-    border-radius: 25px;
-    border: none;
-    background: #0077b6;
-    color: white;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-button:hover {
-    background: #023e8a;
-}
-
-/* Map */
-#map {
-    height: 400px;
-    margin: 20px;
-    border-radius: 15px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-}
-
-/* Store Cards */
-.store-card {
-    background: white;
-    margin: 15px auto;
-    padding: 20px;
-    width: 90%;
-    max-width: 400px;
-    border-radius: 15px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    transition: 0.3s;
-}
-
-.store-card:hover {
-    transform: translateY(-5px);
-}
-
-.store-card h3 {
-    margin: 0;
-    color: #0077b6;
-}
-
-.store-card p {
-    margin: 5px 0;
-    font-size: 14px;
+        markers.push(marker);
+    });
 }
